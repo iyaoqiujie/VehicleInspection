@@ -17,7 +17,7 @@ export function fetchStation(id) {
 
 export function addStation(data) {
   return request({
-    url: '/vinsp/acct/addUser/',
+    url: '/vinsp/station/inspstation/',
     method: 'post',
     data
   })

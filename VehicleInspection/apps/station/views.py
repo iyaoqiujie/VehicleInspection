@@ -51,6 +51,12 @@ class InspStationViewSet(viewsets.ModelViewSet):
     search_fields = ('name', 'contact', 'phone', 'address')
     ordering_fields = ('created',)
 
+    @action(detail=True, methods=['get'])
+    def time_periods(self, request, pk=None):
+        station = self.get_object()
+        periods = station.appointmentRule.time_periods()
+        return Response({'code': 20000, 'periods': periods})
+
 
 class AppointmentDayViewSet(viewsets.ModelViewSet):
     """

@@ -114,9 +114,8 @@ const actions = {
     })
   },
   // Set role
-  setRole({ commit }, role) {
+  setRole({ commit }, roles) {
     return new Promise(resolve => {
-      const roles = ['admin', role]
       commit('SET_ROLES', roles)
       resetRouter()
       resolve()

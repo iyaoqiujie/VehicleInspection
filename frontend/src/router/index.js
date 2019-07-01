@@ -153,9 +153,9 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/station/stationlist',
     name: 'station',
-    meta: { title: '检查点管理',
+    meta: { title: '检测点管理',
       icon: 'table',
-      roles: ['admin', 'SUPERADMIN']
+      roles: ['SUPERADMIN']
     },
     children: [
       {
@@ -204,6 +204,30 @@ export const asyncRoutes = [
         name: 'AppointmentList',
         component: () => import('@/views/appointment/AppointmentList'),
         meta: { title: '预约订单列表', icon: 'table', affix: true }
+      }
+    ]
+  },
+  {
+    path: '/mysta',
+    component: Layout,
+    redirect: '/mysta/detail',
+    name: 'mysta',
+    meta: { title: '我的检测点',
+      icon: 'table',
+      roles: ['STATIONADMIN']
+    },
+    children: [
+      {
+        path: 'detail',
+        name: 'StationDetail',
+        component: () => import('@/views/mysta/Detail'),
+        meta: { title: '检测点详情', icon: 'excel' }
+      },
+      {
+        path: 'rule',
+        name: 'StationRule',
+        component: () => import('@/views/mysta/CreateStation'),
+        meta: { title: '预约规则', icon: 'edit' }
       }
     ]
   },
