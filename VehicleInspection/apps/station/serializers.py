@@ -71,6 +71,7 @@ class InspStationSerializer(serializers.ModelSerializer):
 
 class AppointmentRuleSerializer(serializers.ModelSerializer):
     station_name = serializers.ReadOnlyField(source='station.name')
+    station_id = serializers.ReadOnlyField(source='station.id')
     code = serializers.IntegerField(default=20000, read_only=True)
 
     class Meta:

@@ -197,7 +197,7 @@ export const asyncRoutes = [
     name: 'appointment',
     meta: { title: '预约订单管理',
       icon: '车辆检测',
-      roles: ['admin', 'SUPERADMIN'] },
+      roles: ['STATIONADMIN', 'SUPERADMIN'] },
     children: [
       {
         path: 'appointmentlist',
@@ -226,7 +226,7 @@ export const asyncRoutes = [
       {
         path: 'rule',
         name: 'StationRule',
-        component: () => import('@/views/mysta/CreateStation'),
+        component: () => import('@/views/mysta/RuleDetail'),
         meta: { title: '预约规则', icon: 'edit' }
       }
     ]

@@ -38,6 +38,16 @@ class AppointmentDay(models.Model):
     can_order = models.BooleanField(verbose_name='能否预约', default=True)
     remark = models.CharField(verbose_name='备注', max_length=128, blank=True)
 
+
+
+    @classmethod
+    def create(cls, station, day):
+        isWorkday = True
+        if day.weekday() == 5 or day.weekday() == 6:
+            isWorkday = False
+
+        return cls(station=station, day=day, can_order=isWorkday)
+
     class Meta:
         db_table = 'AppointmentDay'
         verbose_name = '预约时间'

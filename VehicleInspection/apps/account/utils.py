@@ -12,6 +12,7 @@ def jwt_response_payload_handler(token, user=None, request=None):
         'token': token,
         'id': user.id,
         'username': user.username,
+        'mobile': user.mobile,
         'usertype': user.usertype,
         'is_certificated': user.is_certificated,
         'can_order': user.can_order,

@@ -117,6 +117,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { orderList, addOrder, updateOrder } from '@/api/appointment'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
@@ -183,9 +184,17 @@ export default {
       downloadLoading: false
     }
   },
+  computed: {
+    ...mapGetters([
+      'name',
+      'userId',
+      'usertype'
+    ])
+  },
   created() {
     this.getList()
   },
+
   methods: {
     formatStatus: (row, column) => {
       if (row.status === 'ACTIVE') {

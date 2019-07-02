@@ -48,14 +48,14 @@ class AppointmentOrderViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     #pagination_class = CustomerPagination
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter,)
-    filter_fields = ('station__name', 'scheduled_date', 'service', 'status')
+    filter_fields = ('station__admin', 'station__id', 'station__name', 'scheduled_date', 'service', 'status')
     search_fields = ('order_user__name', 'order_user__mobile')
     ordering_fields = ('created',)
 
     def get_queryset(self):
-        if self.request.user.usertype == 'client':
+        if self.request.user.usertype == 'CLIENT':
             return AppointmentOrder.objects.filter(order_user=self.request.user)
-        elif self.request.user.usertype == 'stationAdmin':
+        elif self.request.user.usertype == 'STATIONADMIN':
             return AppointmentOrder.objects.filter(station=self.request.user.station)
         else:
             return AppointmentOrder.objects.all()

@@ -8,9 +8,23 @@ export function stationList(query) {
   })
 }
 
-export function fetchStation(id) {
+export function fetchStationById(id) {
   return request({
     url: '/vinsp/station/inspstation/' + id + '/',
+    method: 'get'
+  })
+}
+
+export function fetchStation() {
+  return request({
+    url: '/vinsp/station/inspstation/fetch_station/',
+    method: 'get'
+  })
+}
+
+export function stationTimePeriods(id) {
+  return request({
+    url: '/vinsp/station/inspstation/' + id + '/time_periods/',
     method: 'get'
   })
 }
@@ -26,6 +40,29 @@ export function addStation(data) {
 export function updateStation(id, data) {
   return request({
     url: '/vinsp/station/inspstation/' + id + '/',
+    method: 'put',
+    data
+  })
+}
+
+export function fetchRule() {
+  return request({
+    url: '/vinsp/station/apprule/fetch_rule/',
+    method: 'get'
+  })
+}
+
+export function stationRuleList(query) {
+  return request({
+    url: '/vinsp/station/apprule/',
+    method: 'get',
+    params: query
+  })
+}
+
+export function updateRule(id, data) {
+  return request({
+    url: '/vinsp/station/apprule/' + id + '/',
     method: 'put',
     data
   })

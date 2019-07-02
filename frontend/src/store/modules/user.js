@@ -15,6 +15,7 @@ const state = {
   token: userInfo.token || '',
   id: userInfo.id || '',
   username: userInfo.username || '',
+  mobile: userInfo.mobile || '',
   avatar: userInfo.avatar || '',
   usertype: userInfo.usertype || '',
   is_certificated: userInfo.is_certificated || false,
@@ -26,6 +27,7 @@ const mutations = {
     state.token = info.token
     state.id = info.id
     state.username = info.username
+    state.mobile = info.mobile
     state.usertype = info.usertype
     state.is_certificated = info.is_certificated
     state.avatar = info.avatar
@@ -35,6 +37,7 @@ const mutations = {
     state.token = ''
     state.id = ''
     state.username = ''
+    state.mobile = ''
     state.usertype = ''
     state.is_certificated = ''
     state.avatar = ''

@@ -51,6 +51,15 @@ class InspStationViewSet(viewsets.ModelViewSet):
     search_fields = ('name', 'contact', 'phone', 'address')
     ordering_fields = ('created',)
 
+    @action(detail=False, methods=['get'])
+    def fetch_station(self, request):
+        try:
+            my_station = self.request.user.station
+            serializer = self.get_serializer(my_station)
+            return Response(serializer.data)
+        except User.station.RelatedObjectDoesNotExist:
+            return Response({'code': 20000, 'message': 'You have no vehicle station in charge'})
+
     @action(detail=True, methods=['get'])
     def time_periods(self, request, pk=None):
         station = self.get_object()
@@ -87,3 +96,20 @@ class AppointmentRuleViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter,)
     search_fields = ('station__name', )
     ordering_fields = ('station__created',)
+
+    @action(detail=False, methods=['get'])
+    def fetch_rule(self, request):
+        try:
+            my_station = self.request.user.station
+            serializer = self.get_serializer(my_station.appointmentRule)
+            return Response(serializer.data)
+        except User.station.RelatedObjectDoesNotExist:
+            return Response({'code': 20000, 'message': 'You have no vehicle station in charge'})
+
+    def get_queryset(self):
+        if self.request.user.usertype == 'STATIONADMIN':
+            return AppointmentRule.objects.filter(station=self.request.user.station)
+        elif self.request.user.usertype == 'SUPERADMIN':
+            return AppointmentRule.objects.all()
+        else:
+            return ''
