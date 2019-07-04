@@ -94,11 +94,11 @@ export default {
   computed: {
     ...mapGetters([
       'mobile',
-      'name'
+      'username'
     ])
   },
   created() {
-    this.stationAdminInfo = this.name + ' (' + this.mobile + ')'
+    this.stationAdminInfo = this.username + ' (' + this.mobile + ')'
     this.fetchData()
   },
   methods: {

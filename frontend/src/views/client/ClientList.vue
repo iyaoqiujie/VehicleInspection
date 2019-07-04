@@ -2,8 +2,8 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input v-model="listQuery.search" placeholder="用户名、手机号" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
-      <el-select v-model="listQuery.usertype" placeholder="用户类型" clearable style="width: 120px" class="filter-item">
-        <el-option v-for="item in usertypeOptions" :key="item.key" :label="item.label" :value="item.key" />
+      <el-select v-model="listQuery.role" placeholder="用户类型" clearable style="width: 120px" class="filter-item">
+        <el-option v-for="item in roleOptions" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>
       <el-select v-model="listQuery.is_certificated" placeholder="实名认证" clearable class="filter-item" style="width: 130px">
         <el-option v-for="item in certOptions" :key="item.key" :label="item.label" :value="item.key" />
@@ -43,7 +43,7 @@
       </el-table-column>
       <el-table-column prop="mobile" label="手机" min-width="15%" align="center">
       </el-table-column>
-      <el-table-column prop="usertype" label="用户类型" min-width="10%" align="center" :formatter="formatUsertype">
+      <el-table-column prop="role" label="用户类型" min-width="10%" align="center" :formatter="formatUsertype">
       </el-table-column>
       <el-table-column prop="is_certificated" label="实名认证" min-width="10%" align="center" :formatter="formatIsCerted">
       </el-table-column>
@@ -86,9 +86,9 @@
         <el-form-item label="所属公司" prop="company">
           <el-input v-model="temp.company" />
         </el-form-item>
-        <el-form-item label="用户类型" prop="usertype">
-          <el-select v-model="temp.usertype" class="filter-item" placeholder="请选择...">
-            <el-option v-for="item in usertypeOptions" :key="item.key" :label="item.label" :value="item.key" />
+        <el-form-item label="用户类型" prop="role">
+          <el-select v-model="temp.role" class="filter-item" placeholder="请选择...">
+            <el-option v-for="item in roleOptions" :key="item.key" :label="item.label" :value="item.key" />
           </el-select>
         </el-form-item>
         <el-form-item label="实名认证" prop="is_certificated">
@@ -139,12 +139,12 @@ export default {
         page: 1,
         limit: 100,
         search: '',
-        usertype: '',
+        role: '',
         is_certificated: '',
         ordering: '-date_joined'
       },
       certOptions: [{ label: '已认证', key: true }, { label: '未认证', key: false }],
-      usertypeOptions: [
+      roleOptions: [
         { label: '超级管理员', key: 'SUPERADMIN' },
         { label: '检测点管理员', key: 'STATIONADMIN' },
         { label: '普通用户', key: 'CLIENT' },
@@ -157,7 +157,7 @@ export default {
         mobile: '',
         email: '',
         company: '',
-        usertype: '',
+        role: '',
         is_certificated: undefined
       },
       dialogFormVisible: false,
@@ -178,9 +178,9 @@ export default {
   },
   methods: {
     formatUsertype: (row, column) => {
-      if (row.usertype === 'SUPERADMIN') {
+      if (row.role === 'SUPERADMIN') {
         return '超级管理员'
-      } else if (row.usertype === 'STATIONADMIN') {
+      } else if (row.role === 'STATIONADMIN') {
         return '检测点管理员'
       } else {
         return '普通用户'
@@ -195,7 +195,6 @@ export default {
     getList() {
       this.listLoading = true
       this.listQuery.offset = (this.listQuery.page - 1) * this.listQuery.limit
-      console.log(this.listQuery.offset)
       userList(this.listQuery).then(response => {
         this.list = response.results
         this.total = response.count
@@ -241,7 +240,7 @@ export default {
         mobile: '',
         email: '',
         company: '',
-        usertype: '',
+        role: '',
         is_certificated: undefined
       }
     },
@@ -319,7 +318,7 @@ export default {
       this.downloadLoading = true
       import('@/vendor/Export2Excel').then(excel => {
         const tHeader = ['用户名', '手机号', '用户类型', '电子邮件', '所属公司', '实名认证', '可预约']
-        const filterVal = ['username', 'mobile', 'usertype', 'email', 'compmay', 'is_certificated', 'can_order']
+        const filterVal = ['username', 'mobile', 'role', 'email', 'company', 'is_certificated', 'can_order']
         const data = this.formatJson(filterVal, this.list)
         excel.export_json_to_excel({
           header: tHeader,

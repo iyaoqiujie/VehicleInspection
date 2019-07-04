@@ -49,7 +49,7 @@
       </el-table-column>
       <el-table-column prop="station_name" label="检测点" min-width="15%" align="center">
       </el-table-column>
-      <el-table-column prop="scheduled_date" label="预约日期" min-width="10%" align="center">
+      <el-table-column prop="scheduled_date" label="预约日期" sortable="custom" min-width="10%" align="center">
       </el-table-column>
       <el-table-column prop="scheduled_time_period" label="预约时间段" min-width="10%" align="center">
       </el-table-column>
@@ -149,7 +149,7 @@ export default {
         search: '',
         service: '',
         status: '',
-        ordering: '-created'
+        ordering: '-scheduled_date'
       },
       serviceOptions: [{ key: 'INSPECTION', label: '检测' }, { key: 'REPAIR', label: '维修' }],
       statusOptions: [
@@ -159,7 +159,7 @@ export default {
         { key: 'CANCELED', label: '已取消' },
         { key: 'COMPLETED', label: '已完成' },
       ],
-      sortOptions: [{ label: '创建时间升序', key: 'created' }, { label: '创建时间降序', key: '-created' }],
+      sortOptions: [{ label: '预约日期升序', key: 'scheduled_date' }, { label: '预约日期降序', key: '-scheduled_date' }],
       scheduledDatePicker: this.scheduledDate(),
       temp: {
         id: undefined,
@@ -186,9 +186,9 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'name',
+      'username',
       'userId',
-      'usertype'
+      'role'
     ])
   },
   created() {
@@ -242,9 +242,17 @@ export default {
     },
     sortChange(data) {
       const { prop, order } = data
-      if (prop === 'id') {
-        this.sortByID(order)
+      if (prop === 'scheduled_date') {
+        this.sortByScheduledDate(order)
       }
+    },
+    sortByScheduledDate(order) {
+      if (order === 'ascending') {
+        this.listQuery.ordering = 'scheduled_date'
+      } else {
+        this.listQuery.ordering = '-scheduled_date'
+      }
+      this.handleFilter()
     },
     resetTemp() {
       this.temp = {

@@ -152,14 +152,14 @@ class AppointmentRule(models.Model):
         while end_time < self.am_end_time:
             end_time, start_time = incre_time(end_time, self.interval)
             if end_time <= self.am_end_time:
-                periods.append('{} - {}'.format(start_time.strftime('%H:%M'), end_time.strftime('%H:%M')))
+                periods.append('{}-{}'.format(start_time.strftime('%H:%M'), end_time.strftime('%H:%M')))
 
         # PM
         end_time = self.pm_start_time
         while end_time < self.pm_end_time:
             end_time, start_time = incre_time(end_time, self.interval)
             if end_time <= self.pm_end_time:
-                periods.append('{} - {}'.format(start_time.strftime('%H:%M'), end_time.strftime('%H:%M')))
+                periods.append('{}-{}'.format(start_time.strftime('%H:%M'), end_time.strftime('%H:%M')))
 
         return periods
 

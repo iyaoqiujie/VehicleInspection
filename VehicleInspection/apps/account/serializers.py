@@ -117,7 +117,7 @@ class UserAddSerializer(serializers.ModelSerializer):
                     name=validated_data['name'],
                     email=validated_data['email'],
                     company=validated_data['company'],
-                    usertype=validated_data['usertype'],
+                    role=validated_data['role'],
                     is_certificated=validated_data['is_certificated'])
         user.set_password('123456')
         user.save()
@@ -125,7 +125,7 @@ class UserAddSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('code', 'username', 'name', 'mobile', 'email', 'company', 'usertype', 'is_certificated')
+        fields = ('code', 'username', 'name', 'mobile', 'email', 'company', 'role', 'is_certificated')
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
@@ -138,5 +138,5 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('code', 'id', 'username', 'mobile', 'email', 'company', 'avatar', 'usertype',
-                  'is_certificated', 'can_order', 'date_joined')
+        fields = ('code', 'id', 'username', 'mobile', 'email', 'company', 'avatar', 'role',
+                  'id_card', 'is_certificated', 'can_order', 'date_joined')

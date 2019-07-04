@@ -52,7 +52,7 @@ class VehicleViewSet(viewsets.ModelViewSet):
     ordering_fields = ('created',)
 
     def get_queryset(self):
-        if self.request.user.usertype == 'client':
+        if self.request.user.role == 'CLIENT':
             return Vehicle.objects.filter(bound_user=self.request.user)
         else:
             return Vehicle.objects.all()

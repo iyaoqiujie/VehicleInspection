@@ -109,7 +109,7 @@ export default {
               type: 'error'
             })
             callback(new Error('用户名:' + value + ' 错误， 请检查用户名是否输入错误'))
-          } else if (response.results[0].usertype != 'STATIONADMIN') {
+          } else if (response.results[0].role != 'STATIONADMIN') {
             this.$message({
               message: value + '不是检测点管理员，请重新输入',
               type: 'error'

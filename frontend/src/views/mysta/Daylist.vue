@@ -24,14 +24,15 @@
       border
       fit
       highlight-current-row
-      style="width: 100%;">
+      style="width: 100%;"
+      @sort-change="sortChange">
       <el-table-column type="selection" width="55">
       </el-table-column>
       <el-table-column type="index" label="编号" width="80" align="center">
       </el-table-column>
       <el-table-column prop="id" v-if="0">
       </el-table-column>
-      <el-table-column prop="day" label="日期" min-width="10%" align="center">
+      <el-table-column prop="day" sortable="custom" label="日期" min-width="10%" align="center">
       </el-table-column>
       <el-table-column prop="weekday" label="星期" min-width="10%" align="center">
       </el-table-column>
@@ -134,6 +135,20 @@ export default {
     handleFilter() {
       this.listQuery.page = 1
       this.getList()
+    },
+    sortChange(data) {
+      const { prop, order } = data
+      if (prop === 'day') {
+        this.sortByDay(order)
+      }
+    },
+    sortByDay(order) {
+      if (order === 'ascending') {
+        this.listQuery.ordering = 'day'
+      } else {
+        this.listQuery.ordering = '-day'
+      }
+      this.handleFilter()
     },
     handleUpdate(row) {
       this.temp = Object.assign({}, row) // copy obj

@@ -7,12 +7,12 @@
     <div class="user-profile">
       <div class="box-center">
         <pan-thumb :image="user.avatar" :height="'100px'" :width="'100px'" :hoverable="false">
-          <div>Hello</div>
-          {{ user.name }}
+          <div>你好</div>
+          {{ user.username }}
         </pan-thumb>
       </div>
       <div class="box-center">
-        <div class="user-name text-center">{{ user.name }}</div>
+        <div class="user-name text-center">{{ user.username }}</div>
         <div class="user-role text-center text-muted">{{ user.role | uppercaseFirst }}</div>
       </div>
     </div>
@@ -64,7 +64,7 @@ export default {
       type: Object,
       default: () => {
         return {
-          name: '',
+          username: '',
           email: '',
           avatar: '',
           roles: ''

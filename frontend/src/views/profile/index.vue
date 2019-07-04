@@ -40,7 +40,10 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'name',
+      'userId',
+      'username',
+      'mobile',
+      'email',
       'avatar',
       'roles'
     ])
@@ -50,11 +53,12 @@ export default {
   },
   methods: {
     getUser() {
-      console.log(this.avatar)
       this.user = {
-        name: this.name,
+        userId: this.userId,
+        username: this.username,
         role: this.roles.join(' | '),
-        email: 'admin@test.com',
+        mobile: this.mobile,
+        email: this.email,
         avatar: this.avatar
       }
     }

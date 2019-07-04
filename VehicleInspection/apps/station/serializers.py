@@ -36,7 +36,7 @@ class InspStationSerializer(serializers.ModelSerializer):
     def validate_stationadmin(self, value):
         try:
             user = User.objects.get(Q(username=value) | Q(mobile=value))
-            if user.usertype != 'STATIONADMIN':
+            if user.role != 'STATIONADMIN':
                 raise serializers.ValidationError('用户[{}]不是检测点管理员'.format(value))
         except User.MultipleObjectsReturned as me:
             myLogger.warning('Multi users retrieved for username [{}]'.format(value))

@@ -50,12 +50,12 @@ class AppointmentOrderViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter,)
     filter_fields = ('station__admin', 'station__id', 'station__name', 'scheduled_date', 'service', 'status')
     search_fields = ('order_user__name', 'order_user__mobile')
-    ordering_fields = ('created',)
+    ordering_fields = ('scheduled_date',)
 
     def get_queryset(self):
-        if self.request.user.usertype == 'CLIENT':
+        if self.request.user.role == 'CLIENT':
             return AppointmentOrder.objects.filter(order_user=self.request.user)
-        elif self.request.user.usertype == 'STATIONADMIN':
+        elif self.request.user.role == 'STATIONADMIN':
             return AppointmentOrder.objects.filter(station=self.request.user.station)
         else:
             return AppointmentOrder.objects.all()
@@ -75,7 +75,7 @@ class AppmntOrderAggViewSet(viewsets.ReadOnlyModelViewSet):
     ordering_fields = ('-scheduled_date',)
 
     def get_queryset(self):
-        if self.request.user.usertype == 'stationAdmin':
+        if self.request.user.role == 'STATIONADMIN':
             return AppmntOrderAgg.objects.filter(station=self.request.user.station)
         else:
             return AppmntOrderAgg.objects.all()

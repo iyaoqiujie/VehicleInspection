@@ -17,7 +17,8 @@ const state = {
   username: userInfo.username || '',
   mobile: userInfo.mobile || '',
   avatar: userInfo.avatar || '',
-  usertype: userInfo.usertype || '',
+  role: userInfo.role || '',
+  id_card: userInfo.id_card || '',
   is_certificated: userInfo.is_certificated || false,
   roles: userInfo.roles || []
 }
@@ -28,7 +29,8 @@ const mutations = {
     state.id = info.id
     state.username = info.username
     state.mobile = info.mobile
-    state.usertype = info.usertype
+    state.role = info.role
+    state.id_card = info.id_card
     state.is_certificated = info.is_certificated
     state.avatar = info.avatar
     state.roles = []
@@ -38,7 +40,8 @@ const mutations = {
     state.id = ''
     state.username = ''
     state.mobile = ''
-    state.usertype = ''
+    state.role = ''
+    state.id_card = ''
     state.is_certificated = ''
     state.avatar = ''
     state.roles = []

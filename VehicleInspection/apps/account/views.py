@@ -122,7 +122,7 @@ class UserViewSet(viewsets.ModelViewSet):
     authentication_classes = (JSONWebTokenAuthentication, authentication.SessionAuthentication)
     #pagination_class = CustomerPagination
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
-    filter_fields = ('usertype', 'can_order', 'is_certificated', 'is_active')
+    filter_fields = ('role', 'can_order', 'is_certificated', 'is_active')
     search_fields = ('name', 'username', 'mobile',)
     ordering_fields = ('last_login', 'date_joined')
 

@@ -106,9 +106,9 @@ class AppointmentDayViewSet(viewsets.ModelViewSet):
     ordering_fields = ('day',)
 
     def get_queryset(self):
-        if self.request.user.usertype == 'STATIONADMIN':
+        if self.request.user.role == 'STATIONADMIN':
             return AppointmentDay.objects.filter(station=self.request.user.station)
-        elif self.request.user.usertype == 'SUPERADMIN':
+        elif self.request.user.role == 'SUPERADMIN':
             return AppointmentDay.objects.all()
         else:
             return ''
@@ -138,9 +138,9 @@ class AppointmentRuleViewSet(viewsets.ModelViewSet):
             return Response({'code': 20000, 'message': 'You have no vehicle station in charge'})
 
     def get_queryset(self):
-        if self.request.user.usertype == 'STATIONADMIN':
+        if self.request.user.role == 'STATIONADMIN':
             return AppointmentRule.objects.filter(station=self.request.user.station)
-        elif self.request.user.usertype == 'SUPERADMIN':
+        elif self.request.user.role == 'SUPERADMIN':
             return AppointmentRule.objects.all()
         else:
             return ''

@@ -16,15 +16,15 @@ class UserProfileAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         ('personal info', {'fields': ('first_name', 'last_name', 'name', 'mobile',
-                                      'email', 'company', 'avatar', 'usertype', 'is_certificated')}),
+                                      'email', 'company', 'avatar', 'role', 'id_card', 'is_certificated')}),
         ('permissions', {'fields': ('is_active', 'is_staff', 'is_superuser',
                                     'groups', 'user_permissions')}),
         ('credit', {'fields': ('credit', 'can_order', 'ban_start', 'ban_days')}),
         (None, {'fields': ('last_login', 'date_joined')}),
     )
-    list_display = ('username', 'name', 'mobile', 'usertype', 'is_certificated', 'credit', 'can_order',
+    list_display = ('username', 'name', 'mobile', 'role', 'id_card', 'is_certificated', 'credit', 'can_order',
                     'last_login', 'date_joined')
-    list_filter = ('is_certificated', 'usertype', 'can_order')
+    list_filter = ('is_certificated', 'role', 'can_order')
     search_fields = ('username', 'name', 'mobile', 'company')
     ordering = ('-last_login', '-date_joined', )
 

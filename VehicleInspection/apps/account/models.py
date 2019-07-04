@@ -11,7 +11,7 @@ from datetime import datetime
 
 
 class UserProfile(AbstractUser):
-    TYPE_CHOICES = (
+    ROLE_CHOICES = (
         ('SUPERADMIN', '超级管理员'),
         ('STATIONADMIN', '检查点管理员'),
         ('CLIENT', '普通用户')
@@ -21,11 +21,10 @@ class UserProfile(AbstractUser):
     name = models.CharField(verbose_name='姓名', max_length=32, blank=True)
     email = models.EmailField(verbose_name='电子邮箱', max_length=128, blank=True)
     company = models.CharField(verbose_name='所属公司', max_length=128, blank=True)
-    usertype = models.CharField(verbose_name='用户类型', max_length=16, choices=TYPE_CHOICES, default='CLIENT')
-    #avatar = models.URLField(verbose_name="头像", blank=True)
-    avatar = models.ImageField(verbose_name='头像', upload_to='avatar', default='/static/avatar/head.gif')
+    role = models.CharField(verbose_name='用户角色', max_length=16, choices=ROLE_CHOICES, default='CLIENT')
+    avatar = models.ImageField(verbose_name='头像', upload_to='avatar', default='/media/avatar/head.gif')
+    id_card = models.CharField(verbose_name='身份证号码', max_length=20, blank=True)
     is_certificated = models.BooleanField(verbose_name='是否已完成实名认证', default=False)
-
     credit = models.IntegerField(verbose_name="信用级别", default=100)
     can_order = models.BooleanField(verbose_name="能否预约", default=False)
     ban_start = models.DateTimeField(verbose_name="开始封禁的时间", blank=True, null=True)
