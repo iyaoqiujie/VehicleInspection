@@ -67,6 +67,29 @@ class InspStationViewSet(viewsets.ModelViewSet):
         return Response({'code': 20000, 'periods': periods})
 
 
+class DateRangeFilter(filters.BaseFilterBackend):
+    """
+    根据输入的时间范围来过滤
+    字段: [start_day, end_day]
+    """
+    def filter_queryset(self, request, queryset, view):
+        start = request.query_params.get('start') or ''
+        end = request.query_params.get('end') or ''
+
+        try:
+            start_day = datetime.datetime.strptime(start, '%Y-%m-%d')
+        except ValueError as ve:
+            start_day = datetime.date.today()
+
+        try:
+            end_day = datetime.datetime.strptime(end, '%Y-%m-%d')
+        except ValueError as ve:
+            end_day = start_day + datetime.timedelta(days=6)
+
+        myLogger.debug("start_day: {}, end_day: {}".format(start_day, end_day))
+        return queryset.filter(day__gte=start_day).filter(day__lte=end_day)
+
+
 class AppointmentDayViewSet(viewsets.ModelViewSet):
     """
     This viewset automatically provides `list`, `create`, `retrieve`,
@@ -77,10 +100,18 @@ class AppointmentDayViewSet(viewsets.ModelViewSet):
     authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
     permission_classes = [IsOwnerOrReadOnly]
     #pagination_class = CustomerPagination
-    filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter,)
-    filter_fields = ('day', 'can_order', )
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter, DateRangeFilter)
+    filter_fields = ('day', 'weekday', 'can_order', 'station')
     search_fields = ('station__name', )
     ordering_fields = ('day',)
+
+    def get_queryset(self):
+        if self.request.user.usertype == 'STATIONADMIN':
+            return AppointmentDay.objects.filter(station=self.request.user.station)
+        elif self.request.user.usertype == 'SUPERADMIN':
+            return AppointmentDay.objects.all()
+        else:
+            return ''
 
 
 class AppointmentRuleViewSet(viewsets.ModelViewSet):

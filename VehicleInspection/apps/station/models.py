@@ -4,8 +4,9 @@
 # @Time: 2019-06-25 16:15
 
 from django.db import models
-from datetime import datetime
+import datetime
 from django.contrib.auth import get_user_model
+from django.db.utils import IntegrityError
 import logging
 
 User = get_user_model()
@@ -30,26 +31,54 @@ class InspStation(models.Model):
         return '车辆检测站({}), 管理员({})'.format(self.name, self.admin.username)
 
 
+def is_workday(day):
+    WEEKDAY = {
+        0: '星期一',
+        1: '星期二',
+        2: '星期三',
+        3: '星期四',
+        4: '星期五',
+        5: '星期六',
+        6: '星期日',
+    }
+    weekday_val = day.weekday()
+    return weekday_val not in [5, 6], WEEKDAY[weekday_val]
+
+
 class AppointmentDay(models.Model):
     id = models.BigAutoField(primary_key=True)
     station = models.ForeignKey(InspStation, related_name='appointmentDays', on_delete=models.CASCADE,
                                 db_column='station_id', null=False, blank=False, verbose_name='车辆检测站')
-    day = models.DateField(verbose_name='日期', null=False, blank=False, unique=True)
+    day = models.DateField(verbose_name='日期', null=False, blank=False)
+    weekday = models.CharField(verbose_name='星期', max_length=16, blank=True)
     can_order = models.BooleanField(verbose_name='能否预约', default=True)
     remark = models.CharField(verbose_name='备注', max_length=128, blank=True)
 
-
-
     @classmethod
     def create(cls, station, day):
-        isWorkday = True
-        if day.weekday() == 5 or day.weekday() == 6:
-            isWorkday = False
+        can_order, weekday = is_workday(day)
+        try:
+            day_obj =  cls.objects.create(station=station, day=day, weekday=weekday, can_order=can_order)
+            return day_obj
+        except IntegrityError as ie:
+            myLogger.error('station={}, day={}, can_order={} exists'.format(station, day, can_order))
 
-        return cls(station=station, day=day, can_order=isWorkday)
+    @classmethod
+    def bulk_create(cls, station, start_day, end_day):
+        obj_list = []
+        appmnt_day = start_day
+        while appmnt_day <= end_day:
+            can_order, weekday = is_workday(appmnt_day)
+            obj_list.append(cls(station=station, day=appmnt_day, weekday=weekday, can_order=can_order))
+            appmnt_day += datetime.timedelta(days=1)
+
+        batch_size = 400
+        cls.objects.bulk_create(obj_list, batch_size, ignore_conflicts=True)
+
 
     class Meta:
         db_table = 'AppointmentDay'
+        unique_together = ['station', 'day']
         verbose_name = '预约时间'
         verbose_name_plural = verbose_name
 

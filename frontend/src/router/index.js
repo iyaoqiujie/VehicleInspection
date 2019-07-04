@@ -79,10 +79,11 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        meta: { title: '工作面板', icon: 'dashboard', affix: true }
       }
     ]
   },
+  /**
   {
     path: '/documentation',
     component: Layout,
@@ -108,6 +109,7 @@ export const constantRoutes = [
       }
     ]
   },
+  */
   {
     path: '/profile',
     component: Layout,
@@ -133,7 +135,7 @@ export const asyncRoutes = [
     path: '/client',
     component: Layout,
     redirect: '/client/clientlist',
-    name: 'client',
+    name: 'Client',
     meta: {
       title: '客户管理',
       icon: 'peoples',
@@ -152,7 +154,7 @@ export const asyncRoutes = [
     path: '/station',
     component: Layout,
     redirect: '/station/stationlist',
-    name: 'station',
+    name: 'Station',
     meta: { title: '检测点管理',
       icon: 'table',
       roles: ['SUPERADMIN']
@@ -176,7 +178,7 @@ export const asyncRoutes = [
     path: '/vehicle',
     component: Layout,
     redirect: '/vehicle/vehiclelist',
-    name: 'vehicle',
+    name: 'Vehicle',
     meta: { title: '机动车管理',
       icon: '车辆排班',
       roles: ['admin', 'SUPERADMIN']
@@ -194,7 +196,7 @@ export const asyncRoutes = [
     path: '/appointment',
     component: Layout,
     redirect: '/appointment/appointmentlist',
-    name: 'appointment',
+    name: 'Appointment',
     meta: { title: '预约订单管理',
       icon: '车辆检测',
       roles: ['STATIONADMIN', 'SUPERADMIN'] },
@@ -211,7 +213,7 @@ export const asyncRoutes = [
     path: '/mysta',
     component: Layout,
     redirect: '/mysta/detail',
-    name: 'mysta',
+    name: 'Mysta',
     meta: { title: '我的检测点',
       icon: 'table',
       roles: ['STATIONADMIN']
@@ -222,6 +224,12 @@ export const asyncRoutes = [
         name: 'StationDetail',
         component: () => import('@/views/mysta/Detail'),
         meta: { title: '检测点详情', icon: 'excel' }
+      },
+      {
+        path: 'day',
+        name: 'StationDay',
+        component: () => import('@/views/mysta/Daylist'),
+        meta: { title: '可预约日期', icon: 'lock' }
       },
       {
         path: 'rule',
@@ -281,16 +289,18 @@ export const asyncRoutes = [
         path: 'index',
         component: () => import('@/views/icons/index'),
         name: 'Icons',
-        meta: { title: 'Icons', icon: 'icon', noCache: true }
+        meta: { title: 'Icons', icon: 'icon', noCache: true, roles: ['admin'] }
       }
     ]
   },
 
   /** when your routing map is too long, you can split it into small modules **/
+  /**
   componentsRouter,
   chartsRouter,
   nestedRouter,
   tableRouter,
+   **/
 
   {
     path: '/example',
@@ -299,7 +309,8 @@ export const asyncRoutes = [
     name: 'Example',
     meta: {
       title: 'Example',
-      icon: 'example'
+      icon: 'example',
+      roles: ['admin']
     },
     children: [
       {
@@ -332,7 +343,7 @@ export const asyncRoutes = [
         path: 'index',
         component: () => import('@/views/tab/index'),
         name: 'Tab',
-        meta: { title: 'Tab', icon: 'tab' }
+        meta: { title: 'Tab', icon: 'tab', roles: ['admin']}
       }
     ]
   },
@@ -344,7 +355,8 @@ export const asyncRoutes = [
     name: 'ErrorPages',
     meta: {
       title: 'Error Pages',
-      icon: '404'
+      icon: '404',
+      roles: ['admin']
     },
     children: [
       {
@@ -370,7 +382,7 @@ export const asyncRoutes = [
         path: 'log',
         component: () => import('@/views/error-log/index'),
         name: 'ErrorLog',
-        meta: { title: 'Error Log', icon: 'bug' }
+        meta: { title: 'Error Log', icon: 'bug', roles: ['admin'] }
       }
     ]
   },
@@ -382,7 +394,8 @@ export const asyncRoutes = [
     name: 'Excel',
     meta: {
       title: 'Excel',
-      icon: 'excel'
+      icon: 'excel',
+      roles: ['admin']
     },
     children: [
       {
@@ -418,7 +431,7 @@ export const asyncRoutes = [
     redirect: '/zip/download',
     alwaysShow: true,
     name: 'Zip',
-    meta: { title: 'Zip', icon: 'zip' },
+    meta: { title: 'Zip', icon: 'zip', roles: ['admin'] },
     children: [
       {
         path: 'download',
@@ -438,7 +451,7 @@ export const asyncRoutes = [
         path: 'index',
         component: () => import('@/views/pdf/index'),
         name: 'PDF',
-        meta: { title: 'PDF', icon: 'pdf' }
+        meta: { title: 'PDF', icon: 'pdf', roles: ['admin'] }
       }
     ]
   },
@@ -456,7 +469,7 @@ export const asyncRoutes = [
         path: 'index',
         component: () => import('@/views/theme/index'),
         name: 'Theme',
-        meta: { title: 'Theme', icon: 'theme' }
+        meta: { title: 'Theme', icon: 'theme', roles: ['admin'] }
       }
     ]
   },
@@ -469,7 +482,7 @@ export const asyncRoutes = [
         path: 'index',
         component: () => import('@/views/clipboard/index'),
         name: 'ClipboardDemo',
-        meta: { title: 'Clipboard', icon: 'clipboard' }
+        meta: { title: 'Clipboard', icon: 'clipboard', roles: ['admin'] }
       }
     ]
   },
@@ -480,7 +493,7 @@ export const asyncRoutes = [
     children: [
       {
         path: 'https://github.com/PanJiaChen/vue-element-admin',
-        meta: { title: 'External Link', icon: 'link' }
+        meta: { title: 'External Link', icon: 'link', roles: ['admin'] }
       }
     ]
   },

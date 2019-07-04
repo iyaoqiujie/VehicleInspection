@@ -1,14 +1,14 @@
 <template>
   <el-card style="margin-bottom:20px;">
     <div slot="header" class="clearfix">
-      <span>About me</span>
+      <span>我的账户</span>
     </div>
 
     <div class="user-profile">
       <div class="box-center">
         <pan-thumb :image="user.avatar" :height="'100px'" :width="'100px'" :hoverable="false">
           <div>Hello</div>
-          {{ user.role }}
+          {{ user.name }}
         </pan-thumb>
       </div>
       <div class="box-center">
@@ -17,6 +17,7 @@
       </div>
     </div>
 
+    <!--
     <div class="user-bio">
       <div class="user-education user-bio-section">
         <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>Education</span></div>
@@ -49,6 +50,7 @@
         </div>
       </div>
     </div>
+    -->
   </el-card>
 </template>
 

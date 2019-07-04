@@ -22,7 +22,8 @@ class UserProfile(AbstractUser):
     email = models.EmailField(verbose_name='电子邮箱', max_length=128, blank=True)
     company = models.CharField(verbose_name='所属公司', max_length=128, blank=True)
     usertype = models.CharField(verbose_name='用户类型', max_length=16, choices=TYPE_CHOICES, default='CLIENT')
-    avatar = models.URLField(verbose_name="头像", blank=True)
+    #avatar = models.URLField(verbose_name="头像", blank=True)
+    avatar = models.ImageField(verbose_name='头像', upload_to='avatar', default='/static/avatar/head.gif')
     is_certificated = models.BooleanField(verbose_name='是否已完成实名认证', default=False)
 
     credit = models.IntegerField(verbose_name="信用级别", default=100)

@@ -67,3 +67,26 @@ export function updateRule(id, data) {
     data
   })
 }
+
+export function fetchDay() {
+  return request({
+    url: '/vinsp/station/appday/fetch_day/',
+    method: 'get'
+  })
+}
+
+export function stationDayList(query) {
+  return request({
+    url: '/vinsp/station/appday/',
+    method: 'get',
+    params: query
+  })
+}
+
+export function updateDay(id, data) {
+  return request({
+    url: '/vinsp/station/appday/' + id + '/',
+    method: 'put',
+    data
+  })
+}

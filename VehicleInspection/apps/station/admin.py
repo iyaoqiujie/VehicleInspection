@@ -28,9 +28,9 @@ class InspStationAdmin(admin.ModelAdmin):
 
 @admin.register(AppointmentDay)
 class AppointmentDayAdmin(admin.ModelAdmin):
-    fields = ('day', 'can_order', 'remark', 'station')
+    fields = ('day', 'weekday', 'can_order', 'remark', 'station')
     raw_id_fields = ('station',)
-    list_display = ('day', 'can_order', 'remark', 'station')
+    list_display = ('day', 'weekday', 'can_order', 'remark', 'station')
     ordering = ('day',)
     list_per_page = 20
 
