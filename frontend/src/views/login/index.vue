@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">车辆检测预约管理平台</h3>
       </div>
 
       <el-form-item prop="username">
@@ -47,6 +47,7 @@
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
 
+      <!--
       <div style="position:relative">
         <div class="tips">
           <span>Username : admin</span>
@@ -61,6 +62,7 @@
           Or connect with
         </el-button>
       </div>
+      -->
     </el-form>
 
     <el-dialog title="Or connect with" :visible.sync="showDialog">
