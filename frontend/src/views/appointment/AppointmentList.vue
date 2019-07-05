@@ -37,15 +37,15 @@
     >
       <el-table-column type="selection" width="55">
       </el-table-column>
-      <el-table-column type="index" label="编号" width="80">
+      <el-table-column type="index" label="编号" width="60" align="center">
       </el-table-column>
       <el-table-column prop="id" v-if="0">
       </el-table-column>
-      <el-table-column prop="orderuser_mobile" label="预约用户手机号" min-width="15%" align="center">
+      <el-table-column prop="orderuser_mobile" label="预约用户" min-width="11%" align="center">
       </el-table-column>
       <el-table-column prop="plate" label="车牌号" min-width="10%" align="center">
       </el-table-column>
-      <el-table-column prop="vin" label="车辆识别代码" min-width="10%" align="center">
+      <el-table-column prop="vin" label="识别代码" min-width="10%" align="center">
       </el-table-column>
       <el-table-column prop="station_name" label="检测点" min-width="15%" align="center">
       </el-table-column>
@@ -91,7 +91,9 @@
             placeholder="请选择预约日期" />
         </el-form-item>
         <el-form-item label="预约时间段" prop="scheduled_time_period">
-          <el-input v-model="temp.scheduled_time_period" />
+          <el-select v-model="temp.scheduled_time_period" class="filter-item" placeholder="Please select">
+            <el-option v-for="item in timePeriods" :key="item" :label="item" :value="item" />
+          </el-select>
         </el-form-item>
         <el-form-item label="预约服务" prop="service">
           <el-select v-model="temp.service" class="filter-item" placeholder="Please select">
@@ -119,6 +121,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { orderList, addOrder, updateOrder } from '@/api/appointment'
+import { stationTimePeriods } from '@/api/station'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
@@ -159,6 +162,7 @@ export default {
         { key: 'CANCELED', label: '已取消' },
         { key: 'COMPLETED', label: '已完成' },
       ],
+      timePeriods: [],
       sortOptions: [{ label: '预约日期升序', key: 'scheduled_date' }, { label: '预约日期降序', key: '-scheduled_date' }],
       scheduledDatePicker: this.scheduledDate(),
       temp: {
@@ -166,6 +170,7 @@ export default {
         orderuser_mobile: '',
         plate: '',
         vin: '',
+        station_name: '',
         scheduled_date: '',
         scheduled_time_period: '',
         service: '',
@@ -174,8 +179,8 @@ export default {
       dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
-        update: 'Edit',
-        create: 'Create'
+        update: '修改预约订单',
+        create: '创建预约订单'
       },
       rules: {
         username: [{ required: true, message: 'type is required', trigger: 'change' }],
@@ -194,7 +199,6 @@ export default {
   created() {
     this.getList()
   },
-
   methods: {
     formatStatus: (row, column) => {
       if (row.status === 'ACTIVE') {
@@ -301,8 +305,20 @@ export default {
         }
       })
     },
+    getTimePeriods(stationId) {
+      stationTimePeriods(stationId).then(response => {
+        this.timePeriods = response.periods
+      }).catch(error => {
+        console.log('rejected: ', error)
+        this.$message({
+          message: '获取检测站预约时间段信息失败',
+          type: 'error'
+        })
+      })
+    },
     handleUpdate(row) {
       this.temp = Object.assign({}, row) // copy obj
+      this.getTimePeriods(this.temp.station)
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
