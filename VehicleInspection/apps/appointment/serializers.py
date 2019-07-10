@@ -16,6 +16,7 @@ myLogger = logging.getLogger('insp.appointment')
 class AppointmentOrderSerializer(serializers.ModelSerializer):
     orderuser_mobile = serializers.ReadOnlyField(source='order_user.mobile')
     station_name = serializers.ReadOnlyField(source='station.name')
+    created = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S')
     code = serializers.IntegerField(default=20000, read_only=True)
 
     class Meta:
