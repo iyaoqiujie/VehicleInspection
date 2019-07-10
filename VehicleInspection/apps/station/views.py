@@ -108,10 +108,8 @@ class AppointmentDayViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.request.user.role == 'STATIONADMIN':
             return AppointmentDay.objects.filter(station=self.request.user.station)
-        elif self.request.user.role == 'SUPERADMIN':
-            return AppointmentDay.objects.all()
         else:
-            return ''
+            return AppointmentDay.objects.all()
 
 
 class AppointmentRuleViewSet(viewsets.ModelViewSet):
@@ -143,4 +141,4 @@ class AppointmentRuleViewSet(viewsets.ModelViewSet):
         elif self.request.user.role == 'SUPERADMIN':
             return AppointmentRule.objects.all()
         else:
-            return ''
+            return AppointmentRule.objects.none()
