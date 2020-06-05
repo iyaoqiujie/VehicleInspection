@@ -12,7 +12,7 @@ coreapi-cli==1.0.9
 coreschema==0.0.4
 defusedxml==0.6.0
 diff-match-patch==20181111
-Django==2.2.2
+Django==2.2.13
 django-appconf==1.0.3
 django-ckeditor==5.7.1
 django-cors-headers==3.0.2
